@@ -127,6 +127,8 @@ class Tetris(QMainWindow):
             BOARD_DATA.moveLeft()
         elif key == Qt.Key_Right:
             BOARD_DATA.moveRight()
+        elif key == Qt.Key_Down:
+            BOARD_DATA.moveDown()
         elif key == Qt.Key_Up:
             BOARD_DATA.rotateLeft()
         elif key == Qt.Key_Space:
