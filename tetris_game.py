@@ -3,7 +3,6 @@
 
 import sys, random
 from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication, QHBoxLayout, QLabel
-from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget, QApplication, QHBoxLayout, QLabel, QMessageBox
 from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor
 
@@ -84,12 +83,6 @@ class Tetris(QMainWindow):
         self.tboard.updateData()
         self.sidePanel.updateData()
         self.update()
-        if BOARD_DATA.currentX == -1:
-            reGame = QMessageBox.question(self, "GAMEOVER", "다시 시작하시곘습니까?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-            if reGame == QMessageBox.Yes:
-                self.start()
-            if reGame == QMessageBox.No:
-                sys.exit(app.exec_())
 
     def timerEvent(self, event):
         if event.timerId() == self.timer.timerId():
