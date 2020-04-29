@@ -83,6 +83,13 @@ class Tetris(QMainWindow):
         self.tboard.updateData()
         self.sidePanel.updateData()
         self.update()
+        if BOARD_DATA.currentX == -1:
+            reGameCheckBox = QMessageBox.question(self, "GAMEOVER", "다시 시작하시곘습니까?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+            if reGameCheckBox == QMessageBox.Yes:
+                self.start()
+            if reGameCheck == QMessageBox.No:
+                sys.exit(app.exec_())
+            self.updateWindow()
 
     def timerEvent(self, event):
         if event.timerId() == self.timer.timerId():
