@@ -22,7 +22,7 @@ class Tetris(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.gridSize = 22
+        self.gridSize = 23
         self.speed = 500
 
         self.timer = QBasicTimer()
@@ -58,6 +58,7 @@ class Tetris(QMainWindow):
 
         self.isStarted = True
         self.tboard.score = 0
+        self.tboard.itemNum = 0
         BOARD_DATA.clear()
 
         self.tboard.msg2Statusbar.emit(str(self.tboard.score))
@@ -84,10 +85,10 @@ class Tetris(QMainWindow):
         self.sidePanel.updateData()
         self.update()
         if BOARD_DATA.currentX == -1:
-            reGameCheckBox = QMessageBox.question(self, "GAMEOVER", "다시 시작하시곘습니까?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-            if reGameCheckBox == QMessageBox.Yes:
+            reGame = QMessageBox.question(self, "GAMEOVER", "다시 시작하시곘습니까?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+            if reGame == QMessageBox.Yes:
                 self.start()
-            if reGameCheck == QMessageBox.No:
+            if reGame == QMessageBox.No:
                 sys.exit(app.exec_())
 
     def timerEvent(self, event):
@@ -108,7 +109,13 @@ class Tetris(QMainWindow):
                     k += 1
             # lines = BOARD_DATA.dropDown()
             lines = BOARD_DATA.moveDown()
+
             self.tboard.score += lines
+            if lines >= 2:
+                self.tboard.itemNum += int(lines/2)
+
+
+
             if self.lastShape != BOARD_DATA.currentShape:
                 self.nextMove = None
                 self.lastShape = BOARD_DATA.currentShape
@@ -122,11 +129,11 @@ class Tetris(QMainWindow):
             return
 
         key = event.key()
-        
+
         if key == Qt.Key_P:
             self.pause()
             return
-            
+
         if self.isPaused:
             return
         elif key == Qt.Key_Left:
@@ -134,11 +141,17 @@ class Tetris(QMainWindow):
         elif key == Qt.Key_Right:
             BOARD_DATA.moveRight()
         elif key == Qt.Key_Down:
-            BOARD_DATA.moveDown()
+            lineCheck = BOARD_DATA.moveDown()
+            self.tboard.score += lineCheck
+            if lineCheck >= 2:
+                self.tboard.itemNum += int(lineCheck/2)
         elif key == Qt.Key_Up:
             BOARD_DATA.rotateLeft()
         elif key == Qt.Key_Space:
-            self.tboard.score += BOARD_DATA.dropDown()
+            lineCheck = BOARD_DATA.dropDown()
+            self.tboard.score += lineCheck
+            if lineCheck >= 2:
+                self.tboard.itemNum += int(lineCheck/2)
         else:
             super(Tetris, self).keyPressEvent(event)
 
@@ -198,6 +211,7 @@ class Board(QFrame):
 
     def initBoard(self):
         self.score = 0
+        self.itemNum = 0
         BOARD_DATA.clear()
 
     def paintEvent(self, event):
@@ -221,7 +235,7 @@ class Board(QFrame):
         painter.drawLine(self.width(), 0, self.width(), self.height())
 
     def updateData(self):
-        self.msg2Statusbar.emit(str(self.score))
+        self.msg2Statusbar.emit("점수: "+str(self.score)+"   아이템: "+str(self.itemNum))
         self.update()
 
 
