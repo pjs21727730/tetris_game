@@ -80,16 +80,20 @@ class Tetris(QMainWindow):
 
         self.updateWindow()
 
+    def reGame(self):
+        self.pause()
+        reGame = QMessageBox.question(self, " ", "다시 시작하시곘습니까?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        if reGame == QMessageBox.Yes:
+            self.pause()
+            self.start()
+        if reGame == QMessageBox.No:
+            self.pause()
+
     def updateWindow(self):
         self.tboard.updateData()
         self.sidePanel.updateData()
+        # self.update()
         self.update()
-        if BOARD_DATA.currentX == -1:
-            reGame = QMessageBox.question(self, "GAMEOVER", "다시 시작하시곘습니까?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-            if reGame == QMessageBox.Yes:
-                self.start()
-            if reGame == QMessageBox.No:
-                sys.exit(app.exec_())
 
     def timerEvent(self, event):
         if event.timerId() == self.timer.timerId():
@@ -155,7 +159,13 @@ class Tetris(QMainWindow):
         elif key == Qt.Key_Z:
             if self.tboard.itemNum >= 1:
                 self.tboard.itemNum -= 1
-                BOARD_DATA.createNewPiece()
+                itemRandom = random.randint(1,2)
+                if itemRandom == 1:
+                    BOARD_DATA.createNewPiece()
+                elif itemRandom == 2:
+                    BOARD_DATA.clear()
+        elif key == Qt.Key_Escape:
+            self.reGame()
         else:
             super(Tetris, self).keyPressEvent(event)
 
