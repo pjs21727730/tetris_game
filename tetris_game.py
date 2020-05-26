@@ -152,6 +152,10 @@ class Tetris(QMainWindow):
             self.tboard.score += lineCheck
             if lineCheck >= 2:
                 self.tboard.itemNum += int(lineCheck/2)
+        elif key == Qt.Key_Z:
+            if self.tboard.itemNum >= 1:
+                self.tboard.itemNum -= 1
+                BOARD_DATA.createNewPiece()
         else:
             super(Tetris, self).keyPressEvent(event)
 
