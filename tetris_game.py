@@ -90,6 +90,23 @@ class Tetris(QMainWindow):
         if reGame == QMessageBox.No:
             self.pause()
 
+    def gameDifficulty(self):
+        if self.tboard.score >= 50:
+            self.speed = 50
+            self.timer.start(self.speed, self)
+        elif self.tboard.score >= 40:
+            self.speed = 100
+            self.timer.start(self.speed, self)
+        elif self.tboard.score >= 30:
+            self.speed = 200
+            self.timer.start(self.speed, self)
+        elif self.tboard.score >= 20:
+            self.speed = 300
+            self.timer.start(self.speed, self)
+        elif self.tboard.score >= 10:
+            self.speed = 400
+            self.timer.start(self.speed, self)
+
     def updateWindow(self):
         self.tboard.updateData()
         self.sidePanel.updateData()
@@ -119,7 +136,7 @@ class Tetris(QMainWindow):
             if lines >= 2:
                 self.tboard.itemNum += int(lines/2)
 
-
+            self.gameDifficulty()
 
             if self.lastShape != BOARD_DATA.currentShape:
                 self.nextMove = None
