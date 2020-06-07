@@ -22,7 +22,7 @@ class Tetris(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.gridSize = 23
+        self.gridSize = 22
         self.speed = 500
 
         self.timer = QBasicTimer()
@@ -43,6 +43,7 @@ class Tetris(QMainWindow):
         self.center()
         self.setWindowTitle('Tetris')
         self.show()
+        self.setStyleSheet('color:white;background:indigo')
 
         self.setFixedSize(self.tboard.width() + self.sidePanel.width(),
                           self.sidePanel.height() + self.statusbar.height())
@@ -226,6 +227,7 @@ class Board(QFrame):
     def initBoard(self):
         self.score = 0
         self.itemNum = 0
+        self.setStyleSheet('color:white;background:black')
         BOARD_DATA.clear()
 
     def paintEvent(self, event):
