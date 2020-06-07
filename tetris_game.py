@@ -83,7 +83,7 @@ class Tetris(QMainWindow):
 
     def reGame(self):
         self.pause()
-        reGame = QMessageBox.question(self, " ", "다시 시작하시곘습니까?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        reGame = QMessageBox.question(self, " ", "다시 시작하시겠습니까?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
         if reGame == QMessageBox.Yes:
             self.pause()
             self.start()
